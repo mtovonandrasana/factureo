@@ -9,13 +9,13 @@ public class Facture {
     private String paiementMode;
     private String devise;
     private String echeance;
-    private Long restAPayer;
     private Long dejaPayer;
     private Long montant;
 
     // TODO: add Client here
     // TODO: add Prestataire here
-    // TODO: 
+    // TODO: add liste marchandise/quantuté here: example +> Map<Marchanise, Integer> 
+
 
 
     public String getNumero() {
@@ -56,14 +56,6 @@ public class Facture {
 
     public void setEcheance(String echeance) {
         this.echeance = echeance;
-    }
-
-    public Long getRestAPayer() {
-        return this.restAPayer;
-    }
-
-    public void setRestAPayer(Long restAPayer) {
-        this.restAPayer = restAPayer;
     }
 
     public Long getDejaPayer() {

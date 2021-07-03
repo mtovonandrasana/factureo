@@ -12,7 +12,11 @@ public class Prestataire {
     private String nomResponsable;
     private boolean isIndividuel;
 
-    // TODO: add address here
+    // TODO: add signature here
+
+    // TODO: add address(siège, code postal, ville, pays) here
+
+    // TODO: add contact(email, tel1, tel2, etc) here
 
 
     public String getNom() {
