@@ -3,7 +3,7 @@ package mg.mtovonandrasana.factureo.domain.prestataire;
 import java.util.Collections;
 import java.util.Set;
 
-public class PartenaireService {
+public class PrestataireService {
     
     public Prestataire createPrestataire(Prestataire prestataire) {
         return null;
