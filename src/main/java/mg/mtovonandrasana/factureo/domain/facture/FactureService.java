@@ -3,9 +3,12 @@ package mg.mtovonandrasana.factureo.domain.facture;
 import java.util.Collections;
 import java.util.Set;
 
+import javax.transaction.Transactional;
+
 
 public class FactureService {
     
+    @Transactional
     public Facture createFacture(Facture facture) {
         return null;
     }
@@ -14,10 +17,12 @@ public class FactureService {
         return null;
     }
 
+    @Transactional
     public Facture updateFacture(Facture facture) {
         return null;
     }
 
+    @Transactional
     public boolean deleteFacture(String numero) {
         return false;
     }
@@ -27,6 +32,7 @@ public class FactureService {
     }
 
     public void printFacture(Facture facture) {
-        
+        // Not used yet
+        /* or should be in Front-end */
     }
 }
