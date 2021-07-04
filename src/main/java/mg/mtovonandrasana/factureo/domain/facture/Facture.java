@@ -2,14 +2,27 @@ package mg.mtovonandrasana.factureo.domain.facture;
 
 import java.time.LocalDate;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
+
+import io.smallrye.common.constraint.NotNull;
+
+@Entity(name = "_FACTURE_")
 public class Facture {
     
+    @Id
     private String numero;
+    @NotBlank
     private LocalDate date;
+    @NotBlank
     private String paiementMode;
+    @NotBlank
     private String devise;
+    @NotBlank
     private String echeance;
     private Long dejaPayer;
+    @NotNull
     private Long montant;
 
     // TODO: add Client here

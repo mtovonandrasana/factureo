@@ -3,21 +3,41 @@ package mg.mtovonandrasana.factureo.domain.prestataire;
 import java.util.Objects;
 import java.util.Set;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
+import javax.validation.constraints.NotBlank;
+
+import io.smallrye.common.constraint.NotNull;
 import mg.mtovonandrasana.factureo.domain.common.Adresse;
 
+@Entity(name = "_PRESTATAIRE_")
 public class Prestataire {
+    @Id
+    private String nif;
+
+    @NotBlank
+    private String stat;
+
     private String nom;
     private String prenom;
     private String raisonSocial;
-    private String nif;
-    private String stat;
     private String rcs;
     private String cin;
+
+    @NotBlank
     private String activite;
+
     private String nomResponsable;
     private boolean isIndividuel;
     private byte[] signature;
+
+    @NotNull
+    @OneToOne
+    @MapsId
     private Adresse headOfficeAdresse;
+    
     private String email;
     private Set<String> phoneNumbers;
 

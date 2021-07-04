@@ -2,7 +2,12 @@ package mg.mtovonandrasana.factureo.domain.prestation;
 
 import java.util.Objects;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity(name = "_MARCHANDISE_")
 public class Marchandise {
+    @Id
     private String reference;
     private String description;
     private Long prixUnitaire;

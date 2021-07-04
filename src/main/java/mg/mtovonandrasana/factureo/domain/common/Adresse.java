@@ -2,11 +2,22 @@ package mg.mtovonandrasana.factureo.domain.common;
 
 import java.util.Objects;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
+
+@Entity(name = "_ADRESSE_")
 public class Adresse {
 
+    @Id
+    @GeneratedValue
     private Long addressId;
+    @NotBlank
     private String address;
+    @NotBlank
     private Integer postalCode;
+    @NotBlank
     private String city;
     private String country = "Madagascar";
 

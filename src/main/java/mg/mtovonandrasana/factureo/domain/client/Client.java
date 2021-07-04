@@ -2,15 +2,30 @@ package mg.mtovonandrasana.factureo.domain.client;
 
 import java.util.Objects;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import mg.mtovonandrasana.factureo.domain.common.Adresse;
 
+@Entity(name = "_CLIENT_")
 public class Client {
 
-    private String raisonSocial;
+    @Id
     private String nif;
+    @NotBlank
     private String stat;
+    @NotBlank
+    private String raisonSocial;
+    @NotBlank
     private String reference;
 
+    @NotNull
+    @OneToOne
+    @MapsId
     private Adresse headOfficeAddress;
 
 
