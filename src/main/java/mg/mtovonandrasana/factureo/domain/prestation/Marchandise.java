@@ -4,21 +4,20 @@ import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity(name = "_MARCHANDISE_")
 public class Marchandise {
     @Id
     private String reference;
+    @NotBlank
     private String description;
+    @NotNull
     private Long prixUnitaire;
 
     public Marchandise() {
-    }
-
-    public Marchandise(String reference, String description, Long prixUnitaire) {
-        this.reference = reference;
-        this.description = description;
-        this.prixUnitaire = prixUnitaire;
+        // Default constructor
     }
 
     public String getReference() {

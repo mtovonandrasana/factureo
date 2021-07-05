@@ -4,12 +4,8 @@ import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.MapsId;
-import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
-import mg.mtovonandrasana.factureo.domain.common.Adresse;
 
 @Entity(name = "_CLIENT_")
 public class Client {
@@ -32,17 +28,7 @@ public class Client {
 
 
     public Client() {
-    }
-
-    public Client(String nif, String stat, String raisonSocial, String reference, String headOfficeAddress, Integer postalCode, String city, String country) {
-        this.nif = nif;
-        this.stat = stat;
-        this.raisonSocial = raisonSocial;
-        this.reference = reference;
-        this.headOfficeAddress = headOfficeAddress;
-        this.postalCode = postalCode;
-        this.city = city;
-        this.country = country;
+        // default constructor
     }
 
     public String getNif() {

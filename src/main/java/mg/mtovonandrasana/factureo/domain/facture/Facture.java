@@ -1,6 +1,7 @@
 package mg.mtovonandrasana.factureo.domain.facture;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -30,6 +31,18 @@ public class Facture {
     // TODO: add liste marchandise/quantuté here: example +> Map<Marchanise, Integer> 
 
 
+    public Facture() {
+    }
+
+    public Facture(String numero, LocalDate date, String paiementMode, String devise, String echeance, Long dejaPayer, Long montant) {
+        this.numero = numero;
+        this.date = date;
+        this.paiementMode = paiementMode;
+        this.devise = devise;
+        this.echeance = echeance;
+        this.dejaPayer = dejaPayer;
+        this.montant = montant;
+    }
 
     public String getNumero() {
         return this.numero;
@@ -86,5 +99,73 @@ public class Facture {
     public void setMontant(Long montant) {
         this.montant = montant;
     }
+
+    public Facture numero(String numero) {
+        setNumero(numero);
+        return this;
+    }
+
+    public Facture date(LocalDate date) {
+        setDate(date);
+        return this;
+    }
+
+    public Facture paiementMode(String paiementMode) {
+        setPaiementMode(paiementMode);
+        return this;
+    }
+
+    public Facture devise(String devise) {
+        setDevise(devise);
+        return this;
+    }
+
+    public Facture echeance(String echeance) {
+        setEcheance(echeance);
+        return this;
+    }
+
+    public Facture dejaPayer(Long dejaPayer) {
+        setDejaPayer(dejaPayer);
+        return this;
+    }
+
+    public Facture montant(Long montant) {
+        setMontant(montant);
+        return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof Facture)) {
+            return false;
+        }
+        var facture = (Facture) o;
+        return Objects.equals(numero, facture.numero) && Objects.equals(date, facture.date)
+                && Objects.equals(paiementMode, facture.paiementMode) && Objects.equals(devise, facture.devise)
+                && Objects.equals(echeance, facture.echeance) && Objects.equals(dejaPayer, facture.dejaPayer)
+                && Objects.equals(montant, facture.montant);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(numero, date, paiementMode, devise, echeance, dejaPayer, montant);
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+            " numero='" + getNumero() + "'" +
+            ", date='" + getDate() + "'" +
+            ", paiementMode='" + getPaiementMode() + "'" +
+            ", devise='" + getDevise() + "'" +
+            ", echeance='" + getEcheance() + "'" +
+            ", dejaPayer='" + getDejaPayer() + "'" +
+            ", montant='" + getMontant() + "'" +
+            "}";
+    }
+
 
 }

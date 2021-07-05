@@ -1,16 +1,11 @@
 package mg.mtovonandrasana.factureo.domain.prestataire;
 
 import java.util.Objects;
-import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.MapsId;
-import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
 
-import io.smallrye.common.constraint.NotNull;
-import mg.mtovonandrasana.factureo.domain.common.Adresse;
 
 @Entity(name = "_PRESTATAIRE_")
 public class Prestataire {
@@ -25,25 +20,42 @@ public class Prestataire {
     private String raisonSocial;
     private String rcs;
     private String cin;
-
     @NotBlank
     private String activite;
-
     private String nomResponsable;
     private boolean isIndividuel;
     private byte[] signature;
 
-    @NotNull
-    @OneToOne
-    @MapsId
-    private Adresse headOfficeAdresse;
-    
+    @NotBlank
+    private String headOfficeAdresse;
+    @NotBlank
+    private Integer postalCode;
+    @NotBlank
+    private String city;
+    private String country = "Madagascar";
     private String email;
-    private Set<String> phoneNumbers;
+    private String[] phoneNumbers;
 
 
     public Prestataire() {
-        // default constructor
+        // Default constructor
+    }
+
+
+    public String getNif() {
+        return this.nif;
+    }
+
+    public void setNif(String nif) {
+        this.nif = nif;
+    }
+
+    public String getStat() {
+        return this.stat;
+    }
+
+    public void setStat(String stat) {
+        this.stat = stat;
     }
 
     public String getNom() {
@@ -68,22 +80,6 @@ public class Prestataire {
 
     public void setRaisonSocial(String raisonSocial) {
         this.raisonSocial = raisonSocial;
-    }
-
-    public String getNif() {
-        return this.nif;
-    }
-
-    public void setNif(String nif) {
-        this.nif = nif;
-    }
-
-    public String getStat() {
-        return this.stat;
-    }
-
-    public void setStat(String stat) {
-        this.stat = stat;
     }
 
     public String getRcs() {
@@ -138,12 +134,36 @@ public class Prestataire {
         this.signature = signature;
     }
 
-    public Adresse getHeadOfficeAdresse() {
+    public String getHeadOfficeAdresse() {
         return this.headOfficeAdresse;
     }
 
-    public void setHeadOfficeAdresse(Adresse headOfficeAdresse) {
+    public void setHeadOfficeAdresse(String headOfficeAdresse) {
         this.headOfficeAdresse = headOfficeAdresse;
+    }
+
+    public Integer getPostalCode() {
+        return this.postalCode;
+    }
+
+    public void setPostalCode(Integer postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public String getCity() {
+        return this.city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getCountry() {
+        return this.country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     public String getEmail() {
@@ -154,12 +174,22 @@ public class Prestataire {
         this.email = email;
     }
 
-    public Set<String> getPhoneNumbers() {
+    public String[] getPhoneNumbers() {
         return this.phoneNumbers;
     }
 
-    public void setPhoneNumbers(Set<String> phoneNumbers) {
+    public void setPhoneNumbers(String[] phoneNumbers) {
         this.phoneNumbers = phoneNumbers;
+    }
+
+    public Prestataire nif(String nif) {
+        setNif(nif);
+        return this;
+    }
+
+    public Prestataire stat(String stat) {
+        setStat(stat);
+        return this;
     }
 
     public Prestataire nom(String nom) {
@@ -174,16 +204,6 @@ public class Prestataire {
 
     public Prestataire raisonSocial(String raisonSocial) {
         setRaisonSocial(raisonSocial);
-        return this;
-    }
-
-    public Prestataire nif(String nif) {
-        setNif(nif);
-        return this;
-    }
-
-    public Prestataire stat(String stat) {
-        setStat(stat);
         return this;
     }
 
@@ -217,8 +237,23 @@ public class Prestataire {
         return this;
     }
 
-    public Prestataire headOfficeAdresse(Adresse headOfficeAdresse) {
+    public Prestataire headOfficeAdresse(String headOfficeAdresse) {
         setHeadOfficeAdresse(headOfficeAdresse);
+        return this;
+    }
+
+    public Prestataire postalCode(Integer postalCode) {
+        setPostalCode(postalCode);
+        return this;
+    }
+
+    public Prestataire city(String city) {
+        setCity(city);
+        return this;
+    }
+
+    public Prestataire country(String country) {
+        setCountry(country);
         return this;
     }
 
@@ -227,7 +262,7 @@ public class Prestataire {
         return this;
     }
 
-    public Prestataire phoneNumbers(Set<String> phoneNumbers) {
+    public Prestataire phoneNumbers(String[] phoneNumbers) {
         setPhoneNumbers(phoneNumbers);
         return this;
     }
@@ -239,31 +274,33 @@ public class Prestataire {
         if (!(o instanceof Prestataire)) {
             return false;
         }
-        Prestataire prestataire = (Prestataire) o;
-        return Objects.equals(nom, prestataire.nom) && Objects.equals(prenom, prestataire.prenom)
-                && Objects.equals(raisonSocial, prestataire.raisonSocial) && Objects.equals(nif, prestataire.nif)
-                && Objects.equals(stat, prestataire.stat) && Objects.equals(rcs, prestataire.rcs)
+        var prestataire = (Prestataire) o;
+        return Objects.equals(nif, prestataire.nif) && Objects.equals(stat, prestataire.stat)
+                && Objects.equals(nom, prestataire.nom) && Objects.equals(prenom, prestataire.prenom)
+                && Objects.equals(raisonSocial, prestataire.raisonSocial) && Objects.equals(rcs, prestataire.rcs)
                 && Objects.equals(cin, prestataire.cin) && Objects.equals(activite, prestataire.activite)
                 && Objects.equals(nomResponsable, prestataire.nomResponsable)
                 && isIndividuel == prestataire.isIndividuel && Objects.equals(signature, prestataire.signature)
                 && Objects.equals(headOfficeAdresse, prestataire.headOfficeAdresse)
-                && Objects.equals(email, prestataire.email) && Objects.equals(phoneNumbers, prestataire.phoneNumbers);
+                && Objects.equals(postalCode, prestataire.postalCode) && Objects.equals(city, prestataire.city)
+                && Objects.equals(country, prestataire.country) && Objects.equals(email, prestataire.email)
+                && Objects.equals(phoneNumbers, prestataire.phoneNumbers);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(nom, prenom, raisonSocial, nif, stat, rcs, cin, activite, nomResponsable, isIndividuel,
-                signature, headOfficeAdresse, email, phoneNumbers);
+        return Objects.hash(nif, stat, nom, prenom, raisonSocial, rcs, cin, activite, nomResponsable, isIndividuel,
+                signature, headOfficeAdresse, postalCode, city, country, email, phoneNumbers);
     }
 
     @Override
     public String toString() {
         return "{" +
-            " nom='" + getNom() + "'" +
+            " nif='" + getNif() + "'" +
+            ", stat='" + getStat() + "'" +
+            ", nom='" + getNom() + "'" +
             ", prenom='" + getPrenom() + "'" +
             ", raisonSocial='" + getRaisonSocial() + "'" +
-            ", nif='" + getNif() + "'" +
-            ", stat='" + getStat() + "'" +
             ", rcs='" + getRcs() + "'" +
             ", cin='" + getCin() + "'" +
             ", activite='" + getActivite() + "'" +
@@ -271,12 +308,12 @@ public class Prestataire {
             ", isIndividuel='" + isIsIndividuel() + "'" +
             ", signature='" + getSignature() + "'" +
             ", headOfficeAdresse='" + getHeadOfficeAdresse() + "'" +
+            ", postalCode='" + getPostalCode() + "'" +
+            ", city='" + getCity() + "'" +
+            ", country='" + getCountry() + "'" +
             ", email='" + getEmail() + "'" +
             ", phoneNumbers='" + getPhoneNumbers() + "'" +
             "}";
     }
-    
-
-
 
 }
