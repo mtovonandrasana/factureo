@@ -3,16 +3,15 @@ package mg.mtovonandrasana.factureo.domain.common;
 import java.util.Objects;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 
 @Entity(name = "_ADRESSE_")
+@Deprecated
 public class Adresse {
 
     @Id
-    @GeneratedValue
-    private Long addressId;
+    private String ownerId;
     @NotBlank
     private String address;
     @NotBlank
@@ -24,20 +23,21 @@ public class Adresse {
     public Adresse() {
     }
 
-    public Adresse(Long addressId, String address, Integer postalCode, String city, String country) {
-        this.addressId = addressId;
+
+    public Adresse(String ownerId, String address, Integer postalCode, String city, String country) {
+        this.ownerId = ownerId;
         this.address = address;
         this.postalCode = postalCode;
         this.city = city;
         this.country = country;
     }
 
-    public Long getAddressId() {
-        return this.addressId;
+    public String getOwnerId() {
+        return this.ownerId;
     }
 
-    public void setAddressId(Long addressId) {
-        this.addressId = addressId;
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
     }
 
     public String getAddress() {
@@ -72,8 +72,8 @@ public class Adresse {
         this.country = country;
     }
 
-    public Adresse addressId(Long addressId) {
-        setAddressId(addressId);
+    public Adresse ownerId(String ownerId) {
+        setOwnerId(ownerId);
         return this;
     }
 
@@ -105,20 +105,26 @@ public class Adresse {
             return false;
         }
         var adresse = (Adresse) o;
-        return Objects.equals(addressId, adresse.addressId) && Objects.equals(address, adresse.address)
+        return Objects.equals(ownerId, adresse.ownerId) && Objects.equals(address, adresse.address)
                 && Objects.equals(postalCode, adresse.postalCode) && Objects.equals(city, adresse.city)
                 && Objects.equals(country, adresse.country);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(addressId, address, postalCode, city, country);
+        return Objects.hash(ownerId, address, postalCode, city, country);
     }
 
     @Override
     public String toString() {
-        return "{" + " addressId='" + getAddressId() + "'" + ", address='" + getAddress() + "'" + ", postalCode='"
-                + getPostalCode() + "'" + ", city='" + getCity() + "'" + ", country='" + getCountry() + "'" + "}";
+        return "{" +
+            " ownerId='" + getOwnerId() + "'" +
+            ", address='" + getAddress() + "'" +
+            ", postalCode='" + getPostalCode() + "'" +
+            ", city='" + getCity() + "'" +
+            ", country='" + getCountry() + "'" +
+            "}";
     }
+
 
 }
