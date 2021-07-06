@@ -17,7 +17,6 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import mg.mtovonandrasana.factureo.domain.facture.Facture;
 import mg.mtovonandrasana.factureo.domain.facture.FactureService;
-import mg.mtovonandrasana.factureo.domain.prestataire.Prestataire;
 
 @Path("/facture")
 @Tag(name = "Facture")
