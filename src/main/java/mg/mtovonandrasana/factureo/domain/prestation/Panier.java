@@ -14,19 +14,14 @@ public class Panier {
     @Id
     @GeneratedValue
     private Long id;
-    private int quarntity;
+    private int quantity;
     @OneToOne
     @JoinColumn(name = "marchandise_id")
     private Marchandise marchandise;
 
 
     public Panier() {
-    }
-
-    public Panier(Long id, int quarntity, Marchandise marchandise) {
-        this.id = id;
-        this.quarntity = quarntity;
-        this.marchandise = marchandise;
+        // default constuctor
     }
 
     public Long getId() {
@@ -37,12 +32,12 @@ public class Panier {
         this.id = id;
     }
 
-    public int getQuarntity() {
-        return this.quarntity;
+    public int getQuantity() {
+        return this.quantity;
     }
 
-    public void setQuarntity(int quarntity) {
-        this.quarntity = quarntity;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public Marchandise getMarchandise() {
@@ -58,8 +53,8 @@ public class Panier {
         return this;
     }
 
-    public Panier quarntity(int quarntity) {
-        setQuarntity(quarntity);
+    public Panier quantity(int quantity) {
+        setQuantity(quantity);
         return this;
     }
 
@@ -75,23 +70,23 @@ public class Panier {
         if (!(o instanceof Panier)) {
             return false;
         }
-        Panier panier = (Panier) o;
-        return Objects.equals(id, panier.id) && quarntity == panier.quarntity && Objects.equals(marchandise, panier.marchandise);
+        var panier = (Panier) o;
+        return Objects.equals(id, panier.id) && quantity == panier.quantity
+                && Objects.equals(marchandise, panier.marchandise);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, quarntity, marchandise);
+        return Objects.hash(id, quantity, marchandise);
     }
 
     @Override
     public String toString() {
         return "{" +
             " id='" + getId() + "'" +
-            ", quarntity='" + getQuarntity() + "'" +
+            ", quantity='" + getQuantity() + "'" +
             ", marchandise='" + getMarchandise() + "'" +
             "}";
     }
-
 
 }

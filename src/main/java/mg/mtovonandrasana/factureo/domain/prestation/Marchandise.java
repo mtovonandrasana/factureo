@@ -46,6 +46,14 @@ public class Marchandise {
         this.prixUnitaire = prixUnitaire;
     }
 
+    public String getUnite() {
+        return this.unite;
+    }
+
+    public void setUnite(String unite) {
+        this.unite = unite;
+    }
+
     public Marchandise reference(String reference) {
         setReference(reference);
         return this;
@@ -61,6 +69,11 @@ public class Marchandise {
         return this;
     }
 
+    public Marchandise unite(String unite) {
+        setUnite(unite);
+        return this;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == this)
@@ -68,20 +81,25 @@ public class Marchandise {
         if (!(o instanceof Marchandise)) {
             return false;
         }
-        Marchandise marchandise = (Marchandise) o;
+        var marchandise = (Marchandise) o;
         return Objects.equals(reference, marchandise.reference) && Objects.equals(description, marchandise.description)
-                && Objects.equals(prixUnitaire, marchandise.prixUnitaire);
+                && Objects.equals(prixUnitaire, marchandise.prixUnitaire) && Objects.equals(unite, marchandise.unite);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(reference, description, prixUnitaire);
+        return Objects.hash(reference, description, prixUnitaire, unite);
     }
 
     @Override
     public String toString() {
-        return "{" + " reference='" + getReference() + "'" + ", description='" + getDescription() + "'"
-                + ", prixUnitaire='" + getPrixUnitaire() + "'" + "}";
+        return "{" +
+            " reference='" + getReference() + "'" +
+            ", description='" + getDescription() + "'" +
+            ", prixUnitaire='" + getPrixUnitaire() + "'" +
+            ", unite='" + getUnite() + "'" +
+            "}";
     }
+
 
 }
