@@ -3,6 +3,9 @@ package mg.mtovonandrasana.factureo.domain.prestataire;
 import java.util.Collections;
 import java.util.Set;
 
+import javax.enterprise.context.ApplicationScoped;
+
+@ApplicationScoped
 public class PrestataireService {
     
     public Prestataire createPrestataire(Prestataire prestataire) {

@@ -3,6 +3,9 @@ package mg.mtovonandrasana.factureo.domain.prestation;
 import java.util.Collections;
 import java.util.Set;
 
+import javax.enterprise.context.ApplicationScoped;
+
+@ApplicationScoped
 public class MarchandiseService {
     
     public Marchandise createMarchandise(Marchandise marchandise) {

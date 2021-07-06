@@ -3,9 +3,10 @@ package mg.mtovonandrasana.factureo.domain.facture;
 import java.util.Collections;
 import java.util.Set;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.transaction.Transactional;
 
-
+@ApplicationScoped
 public class FactureService {
     
     @Transactional
