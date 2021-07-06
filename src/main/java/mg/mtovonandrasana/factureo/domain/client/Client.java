@@ -1,10 +1,16 @@
 package mg.mtovonandrasana.factureo.domain.client;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
+
+import mg.mtovonandrasana.factureo.domain.facture.Facture;
 
 
 @Entity(name = "_CLIENT_")
@@ -25,6 +31,9 @@ public class Client {
     @NotBlank
     private String city;
     private String country = "Madagascar";
+
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Facture> factures = new HashSet<>();
 
 
     public Client() {
@@ -95,6 +104,14 @@ public class Client {
         this.country = country;
     }
 
+    public Set<Facture> getFactures() {
+        return this.factures;
+    }
+
+    public void setFactures(Set<Facture> factures) {
+        this.factures = factures;
+    }
+
     public Client nif(String nif) {
         setNif(nif);
         return this;
@@ -135,6 +152,11 @@ public class Client {
         return this;
     }
 
+    public Client factures(Set<Facture> factures) {
+        setFactures(factures);
+        return this;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == this)
@@ -142,17 +164,17 @@ public class Client {
         if (!(o instanceof Client)) {
             return false;
         }
-        var client = (Client) o;
+        Client client = (Client) o;
         return Objects.equals(nif, client.nif) && Objects.equals(stat, client.stat)
                 && Objects.equals(raisonSocial, client.raisonSocial) && Objects.equals(reference, client.reference)
                 && Objects.equals(headOfficeAddress, client.headOfficeAddress)
                 && Objects.equals(postalCode, client.postalCode) && Objects.equals(city, client.city)
-                && Objects.equals(country, client.country);
+                && Objects.equals(country, client.country) && Objects.equals(factures, client.factures);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(nif, stat, raisonSocial, reference, headOfficeAddress, postalCode, city, country);
+        return Objects.hash(nif, stat, raisonSocial, reference, headOfficeAddress, postalCode, city, country, factures);
     }
 
     @Override
@@ -166,6 +188,7 @@ public class Client {
             ", postalCode='" + getPostalCode() + "'" +
             ", city='" + getCity() + "'" +
             ", country='" + getCountry() + "'" +
+            ", factures='" + getFactures() + "'" +
             "}";
     }
 

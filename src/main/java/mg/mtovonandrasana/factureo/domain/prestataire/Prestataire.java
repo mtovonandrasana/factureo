@@ -1,7 +1,10 @@
 package mg.mtovonandrasana.factureo.domain.prestataire;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
@@ -34,7 +37,9 @@ public class Prestataire {
     private String city;
     private String country = "Madagascar";
     private String email;
-    private String[] phoneNumbers;
+
+    @ElementCollection
+    private Set<String> phoneNumbers = new HashSet<>();
 
 
     public Prestataire() {
@@ -174,11 +179,11 @@ public class Prestataire {
         this.email = email;
     }
 
-    public String[] getPhoneNumbers() {
+    public Set<String> getPhoneNumbers() {
         return this.phoneNumbers;
     }
 
-    public void setPhoneNumbers(String[] phoneNumbers) {
+    public void setPhoneNumbers(Set<String> phoneNumbers) {
         this.phoneNumbers = phoneNumbers;
     }
 
@@ -262,7 +267,7 @@ public class Prestataire {
         return this;
     }
 
-    public Prestataire phoneNumbers(String[] phoneNumbers) {
+    public Prestataire phoneNumbers(Set<String> phoneNumbers) {
         setPhoneNumbers(phoneNumbers);
         return this;
     }
@@ -315,5 +320,6 @@ public class Prestataire {
             ", phoneNumbers='" + getPhoneNumbers() + "'" +
             "}";
     }
+
 
 }

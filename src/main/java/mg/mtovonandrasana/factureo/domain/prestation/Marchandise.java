@@ -15,6 +15,8 @@ public class Marchandise {
     private String description;
     @NotNull
     private Long prixUnitaire;
+    @NotBlank
+    private String unite;
 
     public Marchandise() {
         // Default constructor

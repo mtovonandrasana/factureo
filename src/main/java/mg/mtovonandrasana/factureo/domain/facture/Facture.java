@@ -1,13 +1,21 @@
 package mg.mtovonandrasana.factureo.domain.facture;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 
 import io.smallrye.common.constraint.NotNull;
+import mg.mtovonandrasana.factureo.domain.client.Client;
+import mg.mtovonandrasana.factureo.domain.prestation.Panier;
 
 @Entity(name = "_FACTURE_")
 public class Facture {
@@ -22,26 +30,19 @@ public class Facture {
     private String devise;
     @NotBlank
     private String echeance;
-    private Long dejaPayer;
+    private long dejaPayer;
     @NotNull
-    private Long montant;
+    private long montant;
 
-    // TODO: add Client here
-    // TODO: add Prestataire here
-    // TODO: add liste marchandise/quantuté here: example +> Map<Marchanise, Integer> 
+    @ManyToOne
+    @JoinColumn(name = "nif")
+    private Client client;
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Panier> paniers = new HashSet<>();
 
     public Facture() {
-    }
-
-    public Facture(String numero, LocalDate date, String paiementMode, String devise, String echeance, Long dejaPayer, Long montant) {
-        this.numero = numero;
-        this.date = date;
-        this.paiementMode = paiementMode;
-        this.devise = devise;
-        this.echeance = echeance;
-        this.dejaPayer = dejaPayer;
-        this.montant = montant;
+        // default constructor
     }
 
     public String getNumero() {
@@ -84,20 +85,36 @@ public class Facture {
         this.echeance = echeance;
     }
 
-    public Long getDejaPayer() {
+    public long getDejaPayer() {
         return this.dejaPayer;
     }
 
-    public void setDejaPayer(Long dejaPayer) {
+    public void setDejaPayer(long dejaPayer) {
         this.dejaPayer = dejaPayer;
     }
 
-    public Long getMontant() {
+    public long getMontant() {
         return this.montant;
     }
 
-    public void setMontant(Long montant) {
+    public void setMontant(long montant) {
         this.montant = montant;
+    }
+
+    public Client getClient() {
+        return this.client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public Set<Panier> getPaniers() {
+        return this.paniers;
+    }
+
+    public void setPaniers(Set<Panier> paniers) {
+        this.paniers = paniers;
     }
 
     public Facture numero(String numero) {
@@ -125,13 +142,23 @@ public class Facture {
         return this;
     }
 
-    public Facture dejaPayer(Long dejaPayer) {
+    public Facture dejaPayer(long dejaPayer) {
         setDejaPayer(dejaPayer);
         return this;
     }
 
-    public Facture montant(Long montant) {
+    public Facture montant(long montant) {
         setMontant(montant);
+        return this;
+    }
+
+    public Facture client(Client client) {
+        setClient(client);
+        return this;
+    }
+
+    public Facture paniers(Set<Panier> paniers) {
+        setPaniers(paniers);
         return this;
     }
 
@@ -145,13 +172,14 @@ public class Facture {
         var facture = (Facture) o;
         return Objects.equals(numero, facture.numero) && Objects.equals(date, facture.date)
                 && Objects.equals(paiementMode, facture.paiementMode) && Objects.equals(devise, facture.devise)
-                && Objects.equals(echeance, facture.echeance) && Objects.equals(dejaPayer, facture.dejaPayer)
-                && Objects.equals(montant, facture.montant);
+                && Objects.equals(echeance, facture.echeance) && dejaPayer == facture.dejaPayer
+                && montant == facture.montant && Objects.equals(client, facture.client)
+                && Objects.equals(paniers, facture.paniers);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(numero, date, paiementMode, devise, echeance, dejaPayer, montant);
+        return Objects.hash(numero, date, paiementMode, devise, echeance, dejaPayer, montant, client, paniers);
     }
 
     @Override
@@ -164,8 +192,9 @@ public class Facture {
             ", echeance='" + getEcheance() + "'" +
             ", dejaPayer='" + getDejaPayer() + "'" +
             ", montant='" + getMontant() + "'" +
+            ", client='" + getClient() + "'" +
+            ", paniers='" + getPaniers() + "'" +
             "}";
     }
-
 
 }
