@@ -52,18 +52,18 @@ class MarchandiseResourceTest {
                             .statusCode(Status.CREATED.getStatusCode())
                             .body("reference", is(REFERENCE))
                             .body("description", is(DESCRIPTION))
-                            .body("prixUnitaire", is(PRIX_UNITAIRE))
                             .body("unite", is(UNITE))
                             .extract()
                             .body()
                             .as(new TypeRef<Marchandise>(){});  
         
         assertNotNull(MARCHANDISE);
+        assertEquals(PRIX_UNITAIRE, MARCHANDISE.getPrixUnitaire());
     }
 
     @Test
     @Order(2)
-    void testReadPrestataireEndPoint() {
+    void testReadMarchandiseEndPoint() {
         Marchandise readed_marchandise = given()
                         .when()
                             .pathParam("reference", MARCHANDISE.getReference())
@@ -72,7 +72,6 @@ class MarchandiseResourceTest {
                             .statusCode(Status.OK.getStatusCode())
                             .body("reference", is(REFERENCE))
                             .body("description", is(DESCRIPTION))
-                            .body("prixUnitaire", is(PRIX_UNITAIRE))
                             .body("unite", is(UNITE))
                             .extract()
                             .body()
@@ -80,15 +79,16 @@ class MarchandiseResourceTest {
         assertNotNull(readed_marchandise);
         assertEquals(REFERENCE,readed_marchandise.getReference());
         assertEquals(MARCHANDISE.getReference(),readed_marchandise.getReference());
+        assertEquals(PRIX_UNITAIRE, readed_marchandise.getPrixUnitaire());
     }
 
     @Test
     @Order(3)
-    void testUpdatePrestataireEndPoint() {
+    void testUpdateMarchandiseEndPoint() {
         Marchandise updated_marchandise = given().body(new Marchandise()
                                             .description(U_DESCRIPTION)
-                                            .prixUnitaire(U_PRIX_UNITAIRE)
                                             .unite(U_UNITE)
+                                            .prixUnitaire(U_PRIX_UNITAIRE)
                         )
                         .contentType(ContentType.JSON)
                         .when()
@@ -98,7 +98,6 @@ class MarchandiseResourceTest {
                             .statusCode(Status.OK.getStatusCode())
                             .body("reference", is(REFERENCE))
                             .body("description", is(U_DESCRIPTION))
-                            .body("prixUnitaire", is(U_PRIX_UNITAIRE))
                             .body("unite", is(U_UNITE))
                             .extract()
                             .body()
@@ -107,11 +106,12 @@ class MarchandiseResourceTest {
         assertNotNull(updated_marchandise);
         assertEquals(REFERENCE,updated_marchandise.getReference());
         assertEquals(MARCHANDISE.getReference(),updated_marchandise.getReference());
+        assertEquals(U_PRIX_UNITAIRE, updated_marchandise.getPrixUnitaire());
     }
 
     @Test
     @Order(4)
-    void testDeletePrestataireEndPoint() {
+    void testDeleteMarchandiseEndPoint() {
         Boolean isDeleted = given()
                             .when()
                                 .pathParam("reference", MARCHANDISE.getReference())

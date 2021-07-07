@@ -45,7 +45,7 @@ public class MarchandiseResource {
     @PUT
     @Path("{reference}")
     public Response updateMarchandise(@PathParam("reference") String reference, Marchandise marchandisePojo) {
-        var marchandise = marchandiseService.updateMarchandise(marchandisePojo.reference(reference));
+        var marchandise = marchandiseService.updateMarchandise(reference, marchandisePojo);
         return Response.ok(marchandise).build();
     }
 
