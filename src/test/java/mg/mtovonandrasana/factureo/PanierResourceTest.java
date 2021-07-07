@@ -22,7 +22,6 @@ import mg.mtovonandrasana.factureo.domain.prestation.Panier;
 import mg.mtovonandrasana.factureo.web.PanierResource;
 
 @QuarkusTest
-@TestHTTPEndpoint(PanierResource.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class PanierResourceTest {
     
@@ -42,10 +41,10 @@ class PanierResourceTest {
         Marchandise marchandise = given()
                 .body(new Marchandise().reference(REFERENCE).description(DESCRIPTION).prixUnitaire(PRIX_UNITAIRE)
                         .unite(UNITE))
-                .contentType(ContentType.JSON).when().post().then().statusCode(Status.CREATED.getStatusCode()).extract()
+                .contentType(ContentType.JSON).when().post("/marchandise").then().statusCode(Status.CREATED.getStatusCode()).extract()
                 .body().as(new TypeRef<Marchandise>() {
                 });
-        
+        assertNotNull(marchandise);
         PANIER = given()
                     .body(new Panier()
                         .quantity(QUANTITY)
@@ -53,13 +52,12 @@ class PanierResourceTest {
                     )
                     .contentType(ContentType.JSON)
                     .when()
-                        .post()
+                        .post("/panier")
                     .then()
                         .statusCode(Status.CREATED.getStatusCode())
                         .body("quantity", is(QUANTITY))
                         .body("marchandise.reference", is(REFERENCE))
                         .body("marchandise.description", is(DESCRIPTION))
-                        .body("marchandise.prixUnitaire", is(PRIX_UNITAIRE))
                         .body("marchandise.unite", is(UNITE))
                         .extract()
                         .body()
@@ -69,6 +67,7 @@ class PanierResourceTest {
         assertNotNull(PANIER.getId());
         assertNotNull(PANIER.getMarchandise());
         assertEquals(PANIER.getMarchandise(), marchandise);
+        assertEquals(PRIX_UNITAIRE, PANIER.getMarchandise().getPrixUnitaire());
                                     
     }
     
@@ -80,13 +79,12 @@ class PanierResourceTest {
                     .contentType(ContentType.JSON)
                     .when()
                         .pathParam("panierId", PANIER.getId())
-                        .get("{panierId}")
+                        .get("/panier/{panierId}")
                     .then()
-                        .statusCode(Status.CREATED.getStatusCode())
+                        .statusCode(Status.OK.getStatusCode())
                         .body("quantity", is(QUANTITY))
                         .body("marchandise.reference", is(REFERENCE))
                         .body("marchandise.description", is(DESCRIPTION))
-                        .body("marchandise.prixUnitaire", is(PRIX_UNITAIRE))
                         .body("marchandise.unite", is(UNITE))
                         .extract()
                         .body()
@@ -96,6 +94,8 @@ class PanierResourceTest {
         assertNotNull(readed_panier.getId());
         assertNotNull(readed_panier.getMarchandise());
         assertEquals(readed_panier.getId(), PANIER.getId());
+        assertEquals(PRIX_UNITAIRE, readed_panier.getMarchandise().getPrixUnitaire());
+      
     }
     
     @Test
@@ -107,13 +107,12 @@ class PanierResourceTest {
                     .contentType(ContentType.JSON)
                     .when()
                         .pathParam("panierId", PANIER.getId())
-                        .put("{panierId}")
+                        .put("/panier/{panierId}")
                     .then()
                         .statusCode(Status.OK.getStatusCode())
                         .body("quantity", is(U_QUANTITY))
                         .body("marchandise.reference", is(REFERENCE))
                         .body("marchandise.description", is(DESCRIPTION))
-                        .body("marchandise.prixUnitaire", is(PRIX_UNITAIRE))
                         .body("marchandise.unite", is(UNITE))
                         .extract()
                         .body()
@@ -123,6 +122,8 @@ class PanierResourceTest {
         assertNotNull(updated_panier.getId());
         assertNotNull(updated_panier.getMarchandise());
         assertEquals(updated_panier.getId(), PANIER.getId());
+        assertEquals(PRIX_UNITAIRE, updated_panier.getMarchandise().getPrixUnitaire());
+      
     }  
 
     @Test
@@ -133,7 +134,7 @@ class PanierResourceTest {
                     .contentType(ContentType.JSON)
                     .when()
                         .pathParam("panierId", PANIER.getId())
-                        .delete("{panierId}")
+                        .delete("/panier/{panierId}")
                     .then()
                         .statusCode(Status.OK.getStatusCode())
                         .extract()
