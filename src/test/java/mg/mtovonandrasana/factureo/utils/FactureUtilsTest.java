@@ -3,6 +3,8 @@ package mg.mtovonandrasana.factureo.utils;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.regex.Pattern;
+
 import org.junit.jupiter.api.Test;
 
 import io.quarkus.test.junit.QuarkusTest;
@@ -11,26 +13,33 @@ import io.quarkus.test.junit.QuarkusTest;
 class FactureUtilsTest {
 
 /* NIF */
-    private static final String VALID_NIF_1 = "";
-    private static final String VALID_NIF_2 = "";
-    private static final String UN_VALID_NIF_1 = "";
-    private static final String UN_VALID_NIF_2 = "";
-    private static final String UN_VALID_NIF_3 = "";
-    private static final String UN_VALID_NIF_4 = "";
+    private static final String VALID_NIF_1 = "4002 483 621";
+    private static final String VALID_NIF_2 = "4002483621";
+    private static final String UN_VALID_NIF_1 = "400a483621";
+    private static final String UN_VALID_NIF_2 = "0002483621";
+    private static final String UN_VALID_NIF_3 = "40024836";
+    private static final String UN_VALID_NIF_4 = "40024836214";
 
 /* STAT */
-    private static final String VALID_STAT_1 = "";
-    private static final String VALID_STAT_2 = "";
-    private static final String UN_VALID_STAT_1 = "";
-    private static final String UN_VALID_STAT_2 = "";
-    private static final String UN_VALID_STAT_3 = "";
-    private static final String UN_VALID_STAT_4 = "";
+    private static final String VALID_STAT_1 = "47521112016010900";
+    private static final String VALID_STAT_2 = "47521 11 2016 0 10900";
+    private static final String UN_VALID_STAT_1 = "07521112016010900";
+    private static final String UN_VALID_STAT_2 = "47521a12016010900";
+    private static final String UN_VALID_STAT_3 = "4752111201601090";
+    private static final String UN_VALID_STAT_4 = "475211120160109001";
 
 /* EMAIL */
-    private static final String VALID_EMAIL_1 = "";
-    private static final String VALID_EMAIL_2 = "";
-    private static final String UN_VALID_EMAIL_1 = "";
-    private static final String UN_VALID_EMAIL_2 = "";
+    private static final String VALID_EMAIL_1 = "user@domain.com";
+    private static final String VALID_EMAIL_2 = "user@domain.co.in";
+    private static final String VALID_EMAIL_3 = "user.name@domain.com";
+    private static final String VALID_EMAIL_4 = "user_name@domain.com";
+    private static final String VALID_EMAIL_5 = "username@yahoo.corporate.in";
+    private static final String VALID_EMAIL_6 = "user_name@domain.fr";
+    private static final String UN_VALID_EMAIL_1 = ".username@yahoo.com";
+    private static final String UN_VALID_EMAIL_2 = "username@yahoo.com.";
+    private static final String UN_VALID_EMAIL_3 = "username@yahoo..com";
+    private static final String UN_VALID_EMAIL_4 = "username@yahoo.c";
+    private static final String UN_VALID_EMAIL_5 = "username@yahoo.corporate";
 
     /* PHONE NUMBER */
 // Valide V1
@@ -51,16 +60,15 @@ class FactureUtilsTest {
     private static final String VALID_MALAGASY_PHONE_NUMBER_14 = "+261(0)336259261";
     private static final String VALID_MALAGASY_PHONE_NUMBER_15 = "+261(0)346259261";
     private static final String VALID_MALAGASY_PHONE_NUMBER_16 = "0346259261";
-    private static final String VALID_MALAGASY_PHONE_NUMBER_17 = "032 6 2 5 9 2 6 1";
     private static final String VALID_MALAGASY_PHONE_NUMBER_18 = "033 62 59261";
 // Unvalid V1
     private static final String UNVALID_MALAGASY_PHONE_NUMBER_1 = "-261 34 61 851 44";
     private static final String UNVALID_MALAGASY_PHONE_NUMBER_2 = "+216 34 61 851 44 ";
     private static final String UNVALID_MALAGASY_PHONE_NUMBER_3 = "+116 34 61 851 44 ";
     private static final String UNVALID_MALAGASY_PHONE_NUMBER_4 = "+217 34 61 851 44 ";
-    private static final String UNVALID_MALAGASY_PHONE_NUMBER_5 = "+261 31 61 851 44 ";
-    private static final String UNVALID_MALAGASY_PHONE_NUMBER_6 = "+216 35 61 851 44 ";
-    private static final String UNVALID_MALAGASY_PHONE_NUMBER_7 = "+216 44 61 851 44 ";
+    private static final String UNVALID_MALAGASY_PHONE_NUMBER_5 = "+116 34 61 851 44 ";
+    private static final String UNVALID_MALAGASY_PHONE_NUMBER_6 = "+217 34 612 851 44 ";
+    private static final String UNVALID_MALAGASY_PHONE_NUMBER_7 = "+216 44 61 51 44 ";
     private static final String UNVALID_MALAGASY_PHONE_NUMBER_8 = "0+216 34 61 851 44 ";
 // Unvalid v2
     private static final String UNVALID_MALAGASY_PHONE_NUMBER_9 = "+261 (1) 34 61 851 44 ";
@@ -69,8 +77,7 @@ class FactureUtilsTest {
     private static final String UNVALID_MALAGASY_PHONE_NUMBER_12 = "+261 (0) 34 61 851 444 ";
     private static final String UNVALID_MALAGASY_PHONE_NUMBER_13 = "034 61 814 4";
     private static final String UNVALID_MALAGASY_PHONE_NUMBER_14 = "032 61 814 245";
-    private static final String UNVALID_MALAGASY_PHONE_NUMBER_15 = "031 61 814 24";
-    private static final String UNVALID_MALAGASY_PHONE_NUMBER_16 = "035 61 814 24";
+    private static final String UNVALID_MALAGASY_PHONE_NUMBER_15 = "032 6 2 5 9 2 6 1";
     
     @Test
     void validateNifTest() {
@@ -84,6 +91,14 @@ class FactureUtilsTest {
         assertFalse(FactureoUtils.validateNif(null));
         assertFalse(FactureoUtils.validateNif(UN_VALID_NIF_3));
         assertFalse(FactureoUtils.validateNif(UN_VALID_NIF_4));        
+    }
+
+    @Test
+    void testRegexNif() {
+        var pattern = Pattern.compile("^([1-9]{1}\\d{3}( )?\\d{3}( )?\\d{3}( )?)$");
+        assertTrue(pattern.matcher(VALID_NIF_1).matches());
+        assertFalse(pattern.matcher(UN_VALID_NIF_1).matches());
+        assertTrue(pattern.matcher(VALID_NIF_2).matches());
     }
 
     @Test
@@ -104,12 +119,22 @@ class FactureUtilsTest {
     void validateEmailTest() {
         assertTrue(FactureoUtils.validateEmail(VALID_EMAIL_1));
         assertTrue(FactureoUtils.validateEmail(VALID_EMAIL_2));
+        assertTrue(FactureoUtils.validateEmail(VALID_EMAIL_3));
+        assertTrue(FactureoUtils.validateEmail(VALID_EMAIL_4));
+        assertTrue(FactureoUtils.validateEmail(VALID_EMAIL_5));
+        assertTrue(FactureoUtils.validateEmail(VALID_EMAIL_6));
+    }
 
+    @Test
+    void validateMailUnvalidTest() {
         assertFalse(FactureoUtils.validateEmail(""));
         assertFalse(FactureoUtils.validateEmail(" "));
         assertFalse(FactureoUtils.validateEmail(null));
         assertFalse(FactureoUtils.validateEmail(UN_VALID_EMAIL_1));
         assertFalse(FactureoUtils.validateEmail(UN_VALID_EMAIL_2));
+        assertFalse(FactureoUtils.validateEmail(UN_VALID_EMAIL_3));
+        assertFalse(FactureoUtils.validateEmail(UN_VALID_EMAIL_4));
+        assertFalse(FactureoUtils.validateEmail(UN_VALID_EMAIL_5));
     }
 
     @Test
@@ -134,7 +159,6 @@ class FactureUtilsTest {
         assertTrue(FactureoUtils.validatePhoneNumber(VALID_MALAGASY_PHONE_NUMBER_14));
         assertTrue(FactureoUtils.validatePhoneNumber(VALID_MALAGASY_PHONE_NUMBER_15));
         assertTrue(FactureoUtils.validatePhoneNumber(VALID_MALAGASY_PHONE_NUMBER_16));
-        assertTrue(FactureoUtils.validatePhoneNumber(VALID_MALAGASY_PHONE_NUMBER_17));
         assertTrue(FactureoUtils.validatePhoneNumber(VALID_MALAGASY_PHONE_NUMBER_18));
     }
 
@@ -162,6 +186,18 @@ class FactureUtilsTest {
         assertFalse(FactureoUtils.validatePhoneNumber(UNVALID_MALAGASY_PHONE_NUMBER_13));
         assertFalse(FactureoUtils.validatePhoneNumber(UNVALID_MALAGASY_PHONE_NUMBER_14));
         assertFalse(FactureoUtils.validatePhoneNumber(UNVALID_MALAGASY_PHONE_NUMBER_15));
-        assertFalse(FactureoUtils.validatePhoneNumber(UNVALID_MALAGASY_PHONE_NUMBER_16));
+    }
+
+    @Test
+    void regexTest() {
+        var pattern = Pattern.compile("^(((\\+[2]{1}[6]{1}[1]{1}( )?)(\\([0]{1}\\))?( )?([3]{1}[2-4]{1}))|([0]{1}[3]{1}[2-4]{1}))( )?(\\d{2})( )?(\\d{3})( )?(\\d{2})( )?$");
+        assertTrue(pattern.matcher("+261 (0) 34 06 555 11").matches());
+        assertTrue(pattern.matcher("+261 (0) 3311 123 44").matches());
+        assertTrue(pattern.matcher("+261 344422233").matches());
+        assertTrue(pattern.matcher("+261345544477").matches());
+        assertTrue(pattern.matcher("+261 32 62 592 61").matches());
+        assertFalse(pattern.matcher("+2610341112").matches());
+        assertTrue(pattern.matcher("033 02 402 75").matches());
+        assertTrue(pattern.matcher("0346185144").matches());
     }
 }
