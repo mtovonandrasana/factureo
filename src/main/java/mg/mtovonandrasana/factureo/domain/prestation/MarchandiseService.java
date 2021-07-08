@@ -1,9 +1,9 @@
 package mg.mtovonandrasana.factureo.domain.prestation;
 
-import java.util.Collections;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -70,7 +70,8 @@ public class MarchandiseService {
     }
 
     public Set<Marchandise> listAllMarchandises() {
-        return Collections.emptySet();
+        LOGGER.info("Collecting all marchandises.");
+        return marchandiseRepository.streamAll().collect(Collectors.toSet());
     }
 
     private void checkMarchandise(Marchandise marchandise) {
