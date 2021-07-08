@@ -47,7 +47,7 @@ public class ClientResource {
     @PUT
     @Path("{nif}")
     public Response updateClient(@PathParam("nif") String nif, Client clientPojo) {
-        var client = clientService.updatClient(clientPojo.nif(nif));
+        var client = clientService.updatClient(nif, clientPojo);
         return Response.ok(client).build();
     }
 

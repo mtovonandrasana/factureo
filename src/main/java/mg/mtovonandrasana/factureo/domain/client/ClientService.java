@@ -1,18 +1,18 @@
 package mg.mtovonandrasana.factureo.domain.client;
 
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.NotFoundException;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jboss.logging.Logger;
+
+import mg.mtovonandrasana.factureo.domain.common.VerifyService;
 
 
 @ApplicationScoped
@@ -25,8 +25,10 @@ public class ClientService {
 
     @Transactional
     public Client creaClient(Client clientPojo) {
+        LOG.info("Creating client : "+clientPojo.toString());
         var client = checkInfosClient(clientPojo);
         clientRepository.persist(client);
+        LOG.info("Client created : "+client.toString());
         return client;
     }
 
@@ -34,57 +36,76 @@ public class ClientService {
         return checkAndGetClient(nif);
     }
 
-    public Client updatClient(Client client) {
-
-        return null;
+    @Transactional
+    public Client updatClient(String nif, Client updatedClient) {
+        var client = checkAndGetClient(nif);
+        LOG.info("Updating Client : "+client.toString()+"to "+updatedClient.toString());
+        if(!client.getStat().equals(updatedClient.getStat())) {
+            VerifyService.verifyStat(updatedClient.getStat());
+            client.setStat(updatedClient.getStat());
+        }
+        if(StringUtils.isNotBlank(updatedClient.getRaisonSocial()) 
+            && !client.getRaisonSocial().equals(updatedClient.getRaisonSocial())) {
+            client.setRaisonSocial(updatedClient.getRaisonSocial());
+        }
+        if(StringUtils.isNotBlank(updatedClient.getHeadOfficeAddress()) 
+            && !client.getHeadOfficeAddress().equals(updatedClient.getHeadOfficeAddress())) {
+            client.setHeadOfficeAddress(updatedClient.getHeadOfficeAddress());
+        }
+        if(StringUtils.isNotBlank(updatedClient.getCity()) 
+             && !client.getCity().equals(updatedClient.getCity())) {
+            client.setCity(updatedClient.getCity());
+        }
+        if(Objects.nonNull(updatedClient.getPostalCode()) 
+             && !client.getPostalCode().equals(updatedClient.getPostalCode())) {
+            client.setPostalCode(updatedClient.getPostalCode());
+        }
+        LOG.info("Client Updated: "+client.toString());
+        return client;
     }
 
+    @Transactional
     public boolean deleteClient(String nif) {
-        return clientRepository.deleteById(nif);
+        var client = checkAndGetClient(nif);
+        LOG.info("Deleting Client = "+client.toString());
+        Boolean isDeleted = clientRepository.deleteById(nif);
+        LOG.info("Client deleted: "+isDeleted);
+        return isDeleted; 
     }
 
     public Set<Client> listAllClients() {
-        Set<Client> clients = new HashSet<>();
-        clients.addAll(clientRepository.listAll());
-        if(CollectionUtils.isNotEmpty(clients)) {
-            return clients;
-        }
-        return Collections.emptySet();
+        LOG.info("Collecting all clients.");
+        return clientRepository.streamAll().collect(Collectors.toSet());
     }
 
     private Client checkInfosClient(Client clientPojo) {
-        if (Objects.isNull(clientPojo))
+        LOG.info("Checking client infos");
+        if (Objects.isNull(clientPojo)){
+            LOG.error("Client is null");
             throw new NullPointerException("Client is Null");
-        if (StringUtils.isBlank(clientPojo.getNif()))
-            throw new IllegalArgumentException("Nif is blank.");
-        if (StringUtils.isBlank(clientPojo.getStat()))
-            throw new IllegalArgumentException("STAT is blank.");
-        if (StringUtils.isBlank(clientPojo.getRaisonSocial()))
+        }
+        VerifyService.verifyNif(clientPojo.getNif());
+        VerifyService.verifyStat(clientPojo.getStat());
+        if (StringUtils.isBlank(clientPojo.getRaisonSocial())) {
+            LOG.error("Raison social is blank.");
             throw new IllegalArgumentException("Raison social is blank.");
-        if (Objects.isNull(clientPojo.getHeadOfficeAddress()))
-            throw new NullPointerException("Office Address is null.");
-        
+        }
+        if (StringUtils.isBlank(clientPojo.getHeadOfficeAddress())) {
+            LOG.error("Office Address is blank.");
+            throw new NullPointerException("Office Address is blank.");
+        }
         return clientPojo;
     }
 
     private Client checkAndGetClient(String nif) {
-        if(StringUtils.isBlank(nif))
-            throw new IllegalArgumentException("NIF is empty or blank.");
-        validateNif(nif);
+        LOG.info("Getting client with NIF="+nif);
+        VerifyService.verifyNif(nif);
         var client =  clientRepository.findById(nif);
-        if(Objects.isNull(client))
+        if(Objects.isNull(client)) {
+            LOG.error("Client not found");
             throw new NotFoundException("Client not found.");
+        }
         return client;
-    }
-
-    // TODO: this method should be moved to a Common ot Utility class
-    private void validateNif(String nif) {
-        // TODO: add NIF validation here
-    }
-
-    // TODO: this method should be moved to a Common ot Utility class
-    private void validateStat(String stat) {
-        // TODO: add STAT validation here
     }
 
 }
