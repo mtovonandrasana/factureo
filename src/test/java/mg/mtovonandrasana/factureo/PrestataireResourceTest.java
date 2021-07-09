@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.ws.rs.core.Response.Status;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -32,6 +33,10 @@ class PrestataireResourceTest {
     private static final String STAT = "74908 11 2019 0 07585";
     private static final String NOM = "TOVONANDRASANA";
     private static final String PRENOM = "Michaël";
+    private static final String COMPANY_NAME = new StringBuilder().append(NOM)
+                                                        .append(StringUtils.SPACE)
+                                                        .append(PRENOM)
+                                                        .toString();
     private static final String CIN = "203011028420 ";
     private static final String ACTIVITE = "Consultant en Software Engineering";
     private static final String OFFICE_ADDRESS ="lot VO25 AF Manakambahiny";
@@ -44,6 +49,10 @@ class PrestataireResourceTest {
 
     private static final String U_NOM = "HERINANDRASANA";
     private static final String U_PRENOM = "Luka Maël";
+    private static final String U_COMPANY_NAME = new StringBuilder().append(U_NOM)
+                                                        .append(StringUtils.SPACE)
+                                                        .append(U_PRENOM)
+                                                        .toString();
     private static final String U_CIN = "201011028420 ";
     private static final String U_ACTIVITE = "Consultant en Genie Civil";
     private static final String U_OFFICE_ADDRESS ="lot IR 05 ROVA";
@@ -66,10 +75,9 @@ class PrestataireResourceTest {
         PRESTATAIRE = given().body(new Prestataire()
                                     .nif(NIF)
                                     .stat(STAT)
-                                    .nom(NOM)
-                                    .prenom(PRENOM)
+                                    .comanyName(COMPANY_NAME)
                                     .cin(CIN)
-                                    .activite(ACTIVITE)
+                                    .activity(ACTIVITE)
                                     .headOfficeAdresse(OFFICE_ADDRESS)
                                     .postalCode(POSTAL_CODE)
                                     .city(CITY)
@@ -85,11 +93,10 @@ class PrestataireResourceTest {
                             .statusCode(Status.CREATED.getStatusCode())
                             .body("nif", is(NIF))
                             .body("stat", is(STAT))
-                            .body("nom", is(NOM))
-                            .body("prenom", is(PRENOM))
+                            .body("comanyName", is(COMPANY_NAME))
                             .body("cin", is(CIN))
                             .body("email", is(EMAIL))
-                            .body("activite", is(ACTIVITE))
+                            .body("activity", is(ACTIVITE))
                             .body("headOfficeAdresse", is(OFFICE_ADDRESS))
                             .body("postalCode", is(POSTAL_CODE))
                             .body("city", is(CITY))
@@ -113,11 +120,10 @@ class PrestataireResourceTest {
                             .statusCode(Status.OK.getStatusCode())
                             .body("nif", is(NIF))
                             .body("stat", is(STAT))
-                            .body("nom", is(NOM))
-                            .body("prenom", is(PRENOM))
+                            .body("comanyName", is(COMPANY_NAME))
                             .body("cin", is(CIN))
                             .body("email", is(EMAIL))
-                            .body("activite", is(ACTIVITE))
+                            .body("activity", is(ACTIVITE))
                             .body("headOfficeAdresse", is(OFFICE_ADDRESS))
                             .body("postalCode", is(POSTAL_CODE))
                             .body("city", is(CITY))
@@ -139,10 +145,9 @@ class PrestataireResourceTest {
         phoneNumbersUpdated.add(U_PHONE1);
         phoneNumbersUpdated.add(U_PHONE2);
         Prestataire updated_prestataire = given().body(new Prestataire()
-                                .nom(U_NOM)
-                                .prenom(U_PRENOM)
+                                .comanyName(U_COMPANY_NAME)
                                 .cin(U_CIN)
-                                .activite(U_ACTIVITE)
+                                .activity(U_ACTIVITE)
                                 .headOfficeAdresse(U_OFFICE_ADDRESS)
                                 .postalCode(U_POSTAL_CODE)
                                 .city(U_CITY)
@@ -157,11 +162,10 @@ class PrestataireResourceTest {
                             .statusCode(Status.OK.getStatusCode())
                             .body("nif", is(NIF))
                             .body("stat", is(STAT))
-                            .body("nom", is(U_NOM))
-                            .body("prenom", is(U_PRENOM))
+                            .body("comanyName", is(U_COMPANY_NAME))
                             .body("cin", is(U_CIN))
                             .body("email", is(U_EMAIL))
-                            .body("activite", is(U_ACTIVITE))
+                            .body("activity", is(U_ACTIVITE))
                             .body("headOfficeAdresse", is(U_OFFICE_ADDRESS))
                             .body("postalCode", is(U_POSTAL_CODE))
                             .body("city", is(U_CITY))

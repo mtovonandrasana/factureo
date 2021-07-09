@@ -46,7 +46,7 @@ public class PrestataireResource {
     @PUT
     @Path("{nif}")
     public Response updateClient(@PathParam("nif") String nif, Prestataire prestatairePojo) {
-        var client = prestataireService.updatePresataire(prestatairePojo.nif(nif));
+        var client = prestataireService.updatePresataire(nif, prestatairePojo);
         return Response.ok(client).build();
     }
 
