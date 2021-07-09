@@ -90,10 +90,8 @@ public class ClientService {
             LOG.error("Raison social is blank.");
             throw new IllegalArgumentException("Raison social is blank.");
         }
-        if (StringUtils.isBlank(clientPojo.getHeadOfficeAddress())) {
-            LOG.error("Office Address is blank.");
-            throw new NullPointerException("Office Address is blank.");
-        }
+        VerifyService.verifyOfficeAddress(clientPojo.getHeadOfficeAddress(), clientPojo.getCity(),
+                String.valueOf(clientPojo.getPostalCode()), clientPojo.getCountry());
         return clientPojo;
     }
 
