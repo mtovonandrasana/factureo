@@ -1,52 +1,25 @@
-package mg.mtovonandrasana.factureo.domain.facture;
+package mg.mtovonandrasana.factureo.domain.facture.proxy;
 
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.validation.constraints.NotBlank;
+public class FactureTO {
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-import io.smallrye.common.constraint.NotNull;
-import mg.mtovonandrasana.factureo.domain.client.Client;
-import mg.mtovonandrasana.factureo.domain.prestation.Panier;
-
-@Entity(name = "_FACTURE_")
-public class Facture {
-    
-    @Id
     private String numero;
-    @NotNull
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate dateFacture;
-    @NotBlank
     private String paiementMode;
-    @NotBlank
     private String devise;
-    @NotBlank
     private String echeance;
     private long dejaPayer;
-    @NotNull
     private long montant;
+    private String clientNIF;
+    private Set<Long> pannierIds = new HashSet<>();
 
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name = "nif")
-    private Client client;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Panier> paniers = new HashSet<>();
-
-    public Facture() {
-        // default constructor
+    public FactureTO() {
+        /* default constructor */
     }
 
     public String getNumero() {
@@ -105,64 +78,64 @@ public class Facture {
         this.montant = montant;
     }
 
-    public Client getClient() {
-        return this.client;
+    public String getClientNIF() {
+        return this.clientNIF;
     }
 
-    public void setClient(Client client) {
-        this.client = client;
+    public void setClientNIF(String clientNIF) {
+        this.clientNIF = clientNIF;
     }
 
-    public Set<Panier> getPaniers() {
-        return this.paniers;
+    public Set<Long> getPannierIds() {
+        return this.pannierIds;
     }
 
-    public void setPaniers(Set<Panier> paniers) {
-        this.paniers = paniers;
+    public void setPannierIds(Set<Long> pannierIds) {
+        this.pannierIds = pannierIds;
     }
 
-    public Facture numero(String numero) {
+    public FactureTO numero(String numero) {
         setNumero(numero);
         return this;
     }
 
-    public Facture dateFacture(LocalDate dateFacture) {
+    public FactureTO dateFacture(LocalDate dateFacture) {
         setDateFacture(dateFacture);
         return this;
     }
 
-    public Facture paiementMode(String paiementMode) {
+    public FactureTO paiementMode(String paiementMode) {
         setPaiementMode(paiementMode);
         return this;
     }
 
-    public Facture devise(String devise) {
+    public FactureTO devise(String devise) {
         setDevise(devise);
         return this;
     }
 
-    public Facture echeance(String echeance) {
+    public FactureTO echeance(String echeance) {
         setEcheance(echeance);
         return this;
     }
 
-    public Facture dejaPayer(long dejaPayer) {
+    public FactureTO dejaPayer(long dejaPayer) {
         setDejaPayer(dejaPayer);
         return this;
     }
 
-    public Facture montant(long montant) {
+    public FactureTO montant(long montant) {
         setMontant(montant);
         return this;
     }
 
-    public Facture client(Client client) {
-        setClient(client);
+    public FactureTO clientNIF(String clientNIF) {
+        setClientNIF(clientNIF);
         return this;
     }
 
-    public Facture paniers(Set<Panier> paniers) {
-        setPaniers(paniers);
+    public FactureTO pannierIds(Set<Long> pannierIds) {
+        setPannierIds(pannierIds);
         return this;
     }
 
@@ -170,20 +143,21 @@ public class Facture {
     public boolean equals(Object o) {
         if (o == this)
             return true;
-        if (!(o instanceof Facture)) {
+        if (!(o instanceof FactureTO)) {
             return false;
         }
-        var facture = (Facture) o;
-        return Objects.equals(numero, facture.numero) && Objects.equals(dateFacture, facture.dateFacture)
-                && Objects.equals(paiementMode, facture.paiementMode) && Objects.equals(devise, facture.devise)
-                && Objects.equals(echeance, facture.echeance) && dejaPayer == facture.dejaPayer
-                && montant == facture.montant && Objects.equals(client, facture.client)
-                && Objects.equals(paniers, facture.paniers);
+        var factureTO = (FactureTO) o;
+        return Objects.equals(numero, factureTO.numero) && Objects.equals(dateFacture, factureTO.dateFacture)
+                && Objects.equals(paiementMode, factureTO.paiementMode) && Objects.equals(devise, factureTO.devise)
+                && Objects.equals(echeance, factureTO.echeance) && dejaPayer == factureTO.dejaPayer
+                && montant == factureTO.montant && Objects.equals(clientNIF, factureTO.clientNIF)
+                && Objects.equals(pannierIds, factureTO.pannierIds);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(numero, dateFacture, paiementMode, devise, echeance, dejaPayer, montant, client, paniers);
+        return Objects.hash(numero, dateFacture, paiementMode, devise, echeance, dejaPayer, montant, clientNIF,
+                pannierIds);
     }
 
     @Override
@@ -196,8 +170,8 @@ public class Facture {
             ", echeance='" + getEcheance() + "'" +
             ", dejaPayer='" + getDejaPayer() + "'" +
             ", montant='" + getMontant() + "'" +
-            ", client='" + getClient() + "'" +
-            ", paniers='" + getPaniers() + "'" +
+            ", clientNIF='" + getClientNIF() + "'" +
+            ", pannierIds='" + getPannierIds() + "'" +
             "}";
     }
 
