@@ -13,13 +13,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import javax.ws.rs.core.Response.Status;
 
-import io.quarkus.test.common.http.TestHTTPEndpoint;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.common.mapper.TypeRef;
 import io.restassured.http.ContentType;
 import mg.mtovonandrasana.factureo.domain.prestation.Marchandise;
 import mg.mtovonandrasana.factureo.domain.prestation.Panier;
-import mg.mtovonandrasana.factureo.web.PanierResource;
 
 @QuarkusTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
