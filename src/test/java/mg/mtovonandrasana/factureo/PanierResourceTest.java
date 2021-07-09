@@ -29,14 +29,16 @@ class PanierResourceTest {
     private static final String REFERENCE = "Cons";
     private static final String DESCRIPTION = "Consultance du 01/06/2021 à 30/06/2021";
     private static final long PRIX_UNITAIRE = 200000;
+    private static final long U_PRIX_UNITAIRE = 300000;
     private static final String UNITE = "Jour";
+    private static Marchandise marchandise = null;
 
     private static Panier PANIER = null;
 
     @Test
     @Order(1)
     void testCreatePanierEndPoint() {
-        Marchandise marchandise = given()
+        marchandise = given()
                 .body(new Marchandise().reference(REFERENCE).description(DESCRIPTION).prixUnitaire(PRIX_UNITAIRE)
                         .unite(UNITE))
                 .contentType(ContentType.JSON).when().post("/marchandise").then().statusCode(Status.CREATED.getStatusCode()).extract()
@@ -101,7 +103,7 @@ class PanierResourceTest {
     void testUpdatePanierEndPoint() {
         assertNotNull(PANIER);
         Panier updated_panier = given()
-                    .body(PANIER.quantity(U_QUANTITY))
+                    .body(PANIER.quantity(U_QUANTITY).marchandise(marchandise.prixUnitaire(U_PRIX_UNITAIRE)))
                     .contentType(ContentType.JSON)
                     .when()
                         .pathParam("panierId", PANIER.getId())
@@ -120,7 +122,7 @@ class PanierResourceTest {
         assertNotNull(updated_panier.getId());
         assertNotNull(updated_panier.getMarchandise());
         assertEquals(updated_panier.getId(), PANIER.getId());
-        assertEquals(PRIX_UNITAIRE, updated_panier.getMarchandise().getPrixUnitaire());
+        assertEquals(U_PRIX_UNITAIRE, updated_panier.getMarchandise().getPrixUnitaire());
       
     }  
 

@@ -17,6 +17,8 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import mg.mtovonandrasana.factureo.domain.facture.Facture;
 import mg.mtovonandrasana.factureo.domain.facture.FactureService;
+import mg.mtovonandrasana.factureo.web.adapter.FactureAdapter;
+import mg.mtovonandrasana.factureo.web.dto.FactureDTO;
 
 @Path("/facture")
 @Tag(name = "Facture")
@@ -29,9 +31,9 @@ public class FactureResource {
 
 
     @POST
-    public Response createAndSaveFacture(Facture facturePojo) {
-        var facture = factureService.createFacture(facturePojo);
-        var uri = UriBuilder.fromResource(FactureService.class)
+    public Response createAndSaveFacture(FactureDTO factureDTO) {
+        var facture = factureService.createFacture(FactureAdapter.factureDTOtoTO(factureDTO));
+        var uri = UriBuilder.fromResource(FactureResource.class)
                             .path(facture.getNumero())
                             .build();
         return Response.created(uri).entity(facture).build();        
@@ -46,8 +48,8 @@ public class FactureResource {
 
     @PUT
     @Path("{numero}")
-    public Response updateFacture(@PathParam("numero") String numero, Facture facturePojo) {
-        var facture = factureService.updateFacture(facturePojo.numero(numero));
+    public Response updateFacture(@PathParam("numero") String numero, FactureDTO factureDTO) {
+        var facture = factureService.updateFacture(numero, FactureAdapter.factureDTOtoTO(factureDTO));
         return Response.ok(facture).build();
     }
 
