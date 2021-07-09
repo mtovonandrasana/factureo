@@ -17,15 +17,13 @@ public class Prestataire {
 
     @NotBlank
     private String stat;
-
-    private String nom;
-    private String prenom;
-    private String raisonSocial;
+    @NotBlank
+    private String comanyName;
     private String rcs;
     private String cin;
     @NotBlank
-    private String activite;
-    private String nomResponsable;
+    private String activity;
+    private String responsableName;
     private boolean isIndividuel;
     private byte[] signature;
 
@@ -46,7 +44,6 @@ public class Prestataire {
         // Default constructor
     }
 
-
     public String getNif() {
         return this.nif;
     }
@@ -63,28 +60,12 @@ public class Prestataire {
         this.stat = stat;
     }
 
-    public String getNom() {
-        return this.nom;
+    public String getComanyName() {
+        return this.comanyName;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public String getPrenom() {
-        return this.prenom;
-    }
-
-    public void setPrenom(String prenom) {
-        this.prenom = prenom;
-    }
-
-    public String getRaisonSocial() {
-        return this.raisonSocial;
-    }
-
-    public void setRaisonSocial(String raisonSocial) {
-        this.raisonSocial = raisonSocial;
+    public void setComanyName(String comanyName) {
+        this.comanyName = comanyName;
     }
 
     public String getRcs() {
@@ -103,20 +84,20 @@ public class Prestataire {
         this.cin = cin;
     }
 
-    public String getActivite() {
-        return this.activite;
+    public String getActivity() {
+        return this.activity;
     }
 
-    public void setActivite(String activite) {
-        this.activite = activite;
+    public void setActivity(String activity) {
+        this.activity = activity;
     }
 
-    public String getNomResponsable() {
-        return this.nomResponsable;
+    public String getResponsableName() {
+        return this.responsableName;
     }
 
-    public void setNomResponsable(String nomResponsable) {
-        this.nomResponsable = nomResponsable;
+    public void setResponsableName(String responsableName) {
+        this.responsableName = responsableName;
     }
 
     public boolean isIsIndividuel() {
@@ -197,18 +178,8 @@ public class Prestataire {
         return this;
     }
 
-    public Prestataire nom(String nom) {
-        setNom(nom);
-        return this;
-    }
-
-    public Prestataire prenom(String prenom) {
-        setPrenom(prenom);
-        return this;
-    }
-
-    public Prestataire raisonSocial(String raisonSocial) {
-        setRaisonSocial(raisonSocial);
+    public Prestataire comanyName(String comanyName) {
+        setComanyName(comanyName);
         return this;
     }
 
@@ -222,13 +193,13 @@ public class Prestataire {
         return this;
     }
 
-    public Prestataire activite(String activite) {
-        setActivite(activite);
+    public Prestataire activity(String activity) {
+        setActivity(activity);
         return this;
     }
 
-    public Prestataire nomResponsable(String nomResponsable) {
-        setNomResponsable(nomResponsable);
+    public Prestataire responsableName(String responsableName) {
+        setResponsableName(responsableName);
         return this;
     }
 
@@ -281,10 +252,9 @@ public class Prestataire {
         }
         var prestataire = (Prestataire) o;
         return Objects.equals(nif, prestataire.nif) && Objects.equals(stat, prestataire.stat)
-                && Objects.equals(nom, prestataire.nom) && Objects.equals(prenom, prestataire.prenom)
-                && Objects.equals(raisonSocial, prestataire.raisonSocial) && Objects.equals(rcs, prestataire.rcs)
-                && Objects.equals(cin, prestataire.cin) && Objects.equals(activite, prestataire.activite)
-                && Objects.equals(nomResponsable, prestataire.nomResponsable)
+                && Objects.equals(comanyName, prestataire.comanyName) && Objects.equals(rcs, prestataire.rcs)
+                && Objects.equals(cin, prestataire.cin) && Objects.equals(activity, prestataire.activity)
+                && Objects.equals(responsableName, prestataire.responsableName)
                 && isIndividuel == prestataire.isIndividuel && Objects.equals(signature, prestataire.signature)
                 && Objects.equals(headOfficeAdresse, prestataire.headOfficeAdresse)
                 && Objects.equals(postalCode, prestataire.postalCode) && Objects.equals(city, prestataire.city)
@@ -294,8 +264,8 @@ public class Prestataire {
 
     @Override
     public int hashCode() {
-        return Objects.hash(nif, stat, nom, prenom, raisonSocial, rcs, cin, activite, nomResponsable, isIndividuel,
-                signature, headOfficeAdresse, postalCode, city, country, email, phoneNumbers);
+        return Objects.hash(nif, stat, comanyName, rcs, cin, activity, responsableName, isIndividuel, signature,
+                headOfficeAdresse, postalCode, city, country, email, phoneNumbers);
     }
 
     @Override
@@ -303,13 +273,11 @@ public class Prestataire {
         return "{" +
             " nif='" + getNif() + "'" +
             ", stat='" + getStat() + "'" +
-            ", nom='" + getNom() + "'" +
-            ", prenom='" + getPrenom() + "'" +
-            ", raisonSocial='" + getRaisonSocial() + "'" +
+            ", comanyName='" + getComanyName() + "'" +
             ", rcs='" + getRcs() + "'" +
             ", cin='" + getCin() + "'" +
-            ", activite='" + getActivite() + "'" +
-            ", nomResponsable='" + getNomResponsable() + "'" +
+            ", activity='" + getActivity() + "'" +
+            ", responsableName='" + getResponsableName() + "'" +
             ", isIndividuel='" + isIsIndividuel() + "'" +
             ", signature='" + getSignature() + "'" +
             ", headOfficeAdresse='" + getHeadOfficeAdresse() + "'" +
@@ -320,6 +288,5 @@ public class Prestataire {
             ", phoneNumbers='" + getPhoneNumbers() + "'" +
             "}";
     }
-
 
 }
