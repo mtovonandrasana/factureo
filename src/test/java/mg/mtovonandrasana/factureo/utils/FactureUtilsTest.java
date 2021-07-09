@@ -78,6 +78,20 @@ class FactureUtilsTest {
     private static final String UNVALID_MALAGASY_PHONE_NUMBER_13 = "034 61 814 4";
     private static final String UNVALID_MALAGASY_PHONE_NUMBER_14 = "032 61 814 245";
     private static final String UNVALID_MALAGASY_PHONE_NUMBER_15 = "032 6 2 5 9 2 6 1";
+
+    private static final String VALID_CIN_1 = "201011022455";
+    private static final String VALID_CIN_2 = "201 011 022 455";
+    private static final String UN_VALID_CIN_1 = "001 011 022 455";
+    private static final String UN_VALID_CIN_2 = "2010a1022455";
+    private static final String UN_VALID_CIN_3 = "101 11 022 455";
+    private static final String UN_VALID_CIN_4 = "3010110221455";
+
+    private static final String VALID_POSTAL_CODE_1 = "102";
+    private static final String VALID_POSTAL_CODE_2 = "306";
+    private static final String UN_VALID_POSTAL_CODE_1 = "006";
+    private static final String UN_VALID_POSTAL_CODE_2 = "4056";
+    private static final String UN_VALID_POSTAL_CODE_3 = "46";
+    private static final String UN_VALID_POSTAL_CODE_4 = "1a6";
     
     @Test
     void validateNifTest() {
@@ -199,5 +213,25 @@ class FactureUtilsTest {
         assertFalse(pattern.matcher("+2610341112").matches());
         assertTrue(pattern.matcher("033 02 402 75").matches());
         assertTrue(pattern.matcher("0346185144").matches());
+    }
+
+    @Test
+    void validateCinTest() {
+        assertTrue(FactureoUtils.validateCin(VALID_CIN_1));
+        assertTrue(FactureoUtils.validateCin(VALID_CIN_2));
+        assertFalse(FactureoUtils.validateCin(UN_VALID_CIN_1));
+        assertFalse(FactureoUtils.validateCin(UN_VALID_CIN_2));
+        assertFalse(FactureoUtils.validateCin(UN_VALID_CIN_3));
+        assertFalse(FactureoUtils.validateCin(UN_VALID_CIN_4));
+    }
+
+    @Test
+    void validatePostalCodeTest() {
+        assertTrue(FactureoUtils.validatePostalCode(VALID_POSTAL_CODE_1));
+        assertTrue(FactureoUtils.validatePostalCode(VALID_POSTAL_CODE_2));
+        assertFalse(FactureoUtils.validatePostalCode(UN_VALID_POSTAL_CODE_1));
+        assertFalse(FactureoUtils.validatePostalCode(UN_VALID_POSTAL_CODE_2));
+        assertFalse(FactureoUtils.validatePostalCode(UN_VALID_POSTAL_CODE_3));
+        assertFalse(FactureoUtils.validatePostalCode(UN_VALID_POSTAL_CODE_4));
     }
 }
