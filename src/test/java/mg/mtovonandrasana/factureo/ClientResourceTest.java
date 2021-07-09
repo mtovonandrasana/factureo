@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import javax.ws.rs.core.Response.Status;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -71,7 +70,6 @@ class ClientResourceTest {
         assertEquals(VILLE, CLIENT.getCity());
         assertEquals(CODE_POSTAL, CLIENT.getPostalCode());
         assertEquals(PAYS, CLIENT.getCountry());
-        assertTrue(CollectionUtils.isEmpty(CLIENT.getFactures()));
 
     }
 
@@ -104,7 +102,6 @@ class ClientResourceTest {
         assertEquals(UPDATED_VILLE, CLIENT.getCity());
         assertEquals(UPDATED_CODE_POSTAL, CLIENT.getPostalCode());
         assertEquals(PAYS, CLIENT.getCountry());
-        assertTrue(CollectionUtils.isEmpty(CLIENT.getFactures()));
     }
 
     @Test
@@ -129,7 +126,6 @@ class ClientResourceTest {
         assertEquals(UPDATED_VILLE, CLIENT.getCity());
         assertEquals(UPDATED_CODE_POSTAL, CLIENT.getPostalCode());
         assertEquals(PAYS, CLIENT.getCountry());
-        assertTrue(CollectionUtils.isEmpty(CLIENT.getFactures()));
     }
 
     @Test

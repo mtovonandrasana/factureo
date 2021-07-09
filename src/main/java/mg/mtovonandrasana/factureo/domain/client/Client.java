@@ -32,10 +32,6 @@ public class Client {
     private String city;
     private String country = "Madagascar";
 
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Facture> factures = new HashSet<>();
-
-
     public Client() {
         // default constructor
     }
@@ -104,14 +100,6 @@ public class Client {
         this.country = country;
     }
 
-    public Set<Facture> getFactures() {
-        return this.factures;
-    }
-
-    public void setFactures(Set<Facture> factures) {
-        this.factures = factures;
-    }
-
     public Client nif(String nif) {
         setNif(nif);
         return this;
@@ -152,11 +140,6 @@ public class Client {
         return this;
     }
 
-    public Client factures(Set<Facture> factures) {
-        setFactures(factures);
-        return this;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (o == this)
@@ -169,12 +152,12 @@ public class Client {
                 && Objects.equals(raisonSocial, client.raisonSocial) && Objects.equals(reference, client.reference)
                 && Objects.equals(headOfficeAddress, client.headOfficeAddress)
                 && Objects.equals(postalCode, client.postalCode) && Objects.equals(city, client.city)
-                && Objects.equals(country, client.country) && Objects.equals(factures, client.factures);
+                && Objects.equals(country, client.country) ;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(nif, stat, raisonSocial, reference, headOfficeAddress, postalCode, city, country, factures);
+        return Objects.hash(nif, stat, raisonSocial, reference, headOfficeAddress, postalCode, city, country);
     }
 
     @Override
@@ -188,7 +171,6 @@ public class Client {
             ", postalCode='" + getPostalCode() + "'" +
             ", city='" + getCity() + "'" +
             ", country='" + getCountry() + "'" +
-            ", factures='" + getFactures() + "'" +
             "}";
     }
 
