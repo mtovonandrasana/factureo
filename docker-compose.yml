@@ -14,7 +14,7 @@ services:
     networks:
       - elk
     volumes:
-      - /home/mtovonandrasana/data/db_docker/db_elastic_search:/usr/share/elasticsearch/data
+      - elastic-data:/usr/share/elasticsearch/data
 
   logstash:
     image: docker.elastic.co/logstash/logstash:7.14.0
@@ -43,3 +43,6 @@ services:
 networks:
   elk:
     driver: bridge
+volumes:
+  elastic-data:
+    driver: local
