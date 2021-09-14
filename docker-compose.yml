@@ -13,6 +13,8 @@ services:
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     networks:
       - elk
+    volumes:
+      - /home/mtovonandrasana/data/db_docker/db_elastic_search:/usr/share/elasticsearch/data
 
   logstash:
     image: docker.elastic.co/logstash/logstash:7.14.0
